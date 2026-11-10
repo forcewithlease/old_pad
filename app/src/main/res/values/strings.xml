@@ -16,6 +16,8 @@
 
     <string name="permission_title">需要允许读取视频和照片</string>
     <string name="permission_hint">点下面的按钮，然后在系统弹窗里选择“允许”。</string>
+    <string name="permission_banner">还没允许读取视频和照片，点这里设置（游戏不受影响）</string>
+    <string name="rescan_banner">还没有视频和照片，点这里重新扫描</string>
     <string name="grant">允许读取</string>
 
     <string name="series_count">共 %1$d 集</string>
@@ -43,12 +45,12 @@
 
     <string name="speed">慢速</string>
     <string name="speed_value">%1$s 倍</string>
-    <string name="rewind">⏪ 30秒</string>
-    <string name="forward">30秒 ⏩</string>
-    <string name="subtitles_on">字幕 开</string>
-    <string name="subtitles_off">字幕 关</string>
-    <string name="volume_down">音量 －</string>
-    <string name="volume_up">音量 ＋</string>
+    <string name="rewind">⏪30</string>
+    <string name="forward">30⏩</string>
+    <string name="subtitles_on">字幕开</string>
+    <string name="subtitles_off">字幕关</string>
+    <string name="volume_down">音量-</string>
+    <string name="volume_up">音量+</string>
     <string name="lock">锁定</string>
     <string name="locked_hint">已锁定，长按屏幕 2 秒解锁</string>
     <string name="unlocked">已解锁</string>
@@ -88,7 +90,7 @@
     <string name="rescan_videos">重新扫描视频和照片</string>
     <string name="open_system_settings">打开系统设置</string>
     <string name="ignore_battery">关闭电池优化</string>
-    <string name="all_files_access">允许读取字幕文件</string>
+    <string name="all_files_access">允许读取字幕文件（所有文件访问）</string>
     <string name="all_files_desc">Android 11 以上系统默认不允许读取视频旁边的 .srt/.ass 字幕。开启“所有文件访问”后字幕才能自动加载（可选）。</string>
     <string name="all_files_granted">已允许读取字幕文件</string>
     <string name="all_files_go">去开启</string>

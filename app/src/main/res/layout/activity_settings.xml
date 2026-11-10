@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fitsSystemWindows="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:background="@drawable/bg_button"
+                android:contentDescription="@string/back"
+                android:padding="20dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:text="@string/settings_title"
+                android:textColor="@color/text"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 开机自启 -->
+        <LinearLayout
+            style="@style/SettingRow"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingTitle"
+                        android:text="@string/auto_start" />
+
+                    <TextView
+                        style="@style/SettingDesc"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/auto_start_desc" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchAutoStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:scaleX="1.35"
+                    android:scaleY="1.35" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 桌面模式 -->
+        <LinearLayout style="@style/SettingRow">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingTitle"
+                        android:text="@string/launcher_mode" />
+
+                    <TextView
+                        style="@style/SettingDesc"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/launcher_mode_desc" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchLauncher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:scaleX="1.35"
+                    android:scaleY="1.35" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 屏幕常亮 -->
+        <LinearLayout style="@style/SettingRow">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingTitle"
+                        android:text="@string/keep_awake" />
+
+                    <TextView
+                        style="@style/SettingDesc"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/keep_awake_desc" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchKeepAwake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:scaleX="1.35"
+                    android:scaleY="1.35" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 字幕大小 -->
+        <LinearLayout style="@style/SettingRow">
+
+            <TextView
+                style="@style/SettingTitle"
+                android:text="@string/subtitle_size" />
+
+            <TextView
+                style="@style/SettingDesc"
+                android:layout_marginTop="6dp"
+                android:text="@string/subtitle_size_desc" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btnSizeBig"
+                    style="@style/BigButton.Small"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/size_big" />
+
+                <TextView
+                    android:id="@+id/btnSizeBigger"
+                    style="@style/BigButton.Small"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/size_bigger" />
+
+                <TextView
+                    android:id="@+id/btnSizeBiggest"
+                    style="@style/BigButton.Small"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/size_biggest" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 管理首页 -->
+        <LinearLayout
+            android:id="@+id/btnManageHome"
+            style="@style/SettingRow"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/SettingTitle"
+                android:text="@string/manage_home" />
+
+            <TextView
+                style="@style/SettingDesc"
+                android:layout_marginTop="6dp"
+                android:text="@string/manage_home_desc" />
+        </LinearLayout>
+
+        <!-- 视频目录说明 -->
+        <LinearLayout style="@style/SettingRow">
+
+            <TextView
+                style="@style/SettingTitle"
+                android:text="@string/video_folder_title" />
+
+            <TextView
+                style="@style/SettingDesc"
+                android:layout_marginTop="6dp"
+                android:text="@string/video_folder_desc" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnRescan"
+            style="@style/BigButton"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="14dp"
+            android:text="@string/rescan_videos" />
+
+        <TextView
+            android:id="@+id/btnAllFiles"
+            style="@style/BigButton.Ghost"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="14dp"
+            android:text="@string/all_files_access" />
+
+        <TextView
+            android:id="@+id/btnSystemSettings"
+            style="@style/BigButton.Ghost"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="14dp"
+            android:text="@string/open_system_settings" />
+
+        <TextView
+            android:id="@+id/btnBattery"
+            style="@style/BigButton.Ghost"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="14dp"
+            android:text="@string/ignore_battery" />
+
+        <LinearLayout style="@style/SettingRow">
+
+            <TextView
+                style="@style/SettingTitle"
+                android:text="@string/about_title" />
+
+            <TextView
+                style="@style/SettingDesc"
+                android:layout_marginTop="6dp"
+                android:text="@string/about_desc" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="v1.0"
+                android:textColor="@color/text_dim"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

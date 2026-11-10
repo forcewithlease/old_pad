@@ -20,8 +20,8 @@ object SubtitleFinder {
     private val extensions = mapOf(
         "srt" to MimeTypes.APPLICATION_SUBRIP,
         "vtt" to MimeTypes.TEXT_VTT,
-        "ass" to MimeTypes.APPLICATION_SSA,
-        "ssa" to MimeTypes.APPLICATION_SSA
+        "ass" to MimeTypes.TEXT_SSA,
+        "ssa" to MimeTypes.TEXT_SSA
     )
 
     fun find(video: VideoItem): List<SubtitleFile> {

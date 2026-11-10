@@ -2,6 +2,7 @@ package com.oldpad.app.ui
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -61,14 +62,33 @@ object ThumbnailLoader {
             )
         }
         val retriever = MediaMetadataRetriever()
-        return try {
+        val fromVideo = try {
             retriever.setDataSource(context, uri)
             retriever.getFrameAtTime(2_000_000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+        } catch (e: Exception) {
+            null
         } finally {
             try {
                 retriever.release()
             } catch (ignored: Exception) {
             }
+        }
+        if (fromVideo != null) return fromVideo
+
+        // 照片（API 29 以下没有 loadThumbnail）
+        return try {
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            context.contentResolver.openInputStream(uri)?.use {
+                BitmapFactory.decodeStream(it, null, bounds)
+            }
+            var sample = 1
+            while (bounds.outWidth / (sample * 2) >= widthPx) sample *= 2
+            val options = BitmapFactory.Options().apply { inSampleSize = sample }
+            context.contentResolver.openInputStream(uri)?.use {
+                BitmapFactory.decodeStream(it, null, options)
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 }

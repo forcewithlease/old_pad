@@ -27,7 +27,12 @@ object PhotoLoader {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val main = Handler(Looper.getMainLooper())
 
-    fun load(imageView: ImageView, photo: PhotoItem, maxSizePx: Int = 512) {
+    fun load(
+        imageView: ImageView,
+        photo: PhotoItem,
+        maxSizePx: Int = 512,
+        onDone: (() -> Unit)? = null
+    ) {
         val key = "${photo.id}@$maxSizePx"
         imageView.tag = key
         imageView.setImageDrawable(null)
@@ -35,6 +40,7 @@ object PhotoLoader {
         val cached = cache.get(key)
         if (cached != null) {
             imageView.setImageBitmap(cached)
+            onDone?.invoke()
             return
         }
 
@@ -50,6 +56,7 @@ object PhotoLoader {
                 if (imageView.tag == key && bitmap != null) {
                     imageView.setImageBitmap(bitmap)
                 }
+                onDone?.invoke()
             }
         }
     }

@@ -19,7 +19,7 @@ object AppSettings {
 
     fun keepAwake(context: Context): Boolean = prefs(context).getBoolean(KEY_KEEP_AWAKE, true)
 
-    fun subtitleScale(context: Context): Float = prefs(context).getFloat(KEY_SUBTITLE_SCALE, 0.09f)
+    fun subtitleScale(context: Context): Float = prefs(context).getFloat(KEY_SUBTITLE_SCALE, 0.08f)
 
     fun subtitlesOn(context: Context): Boolean = prefs(context).getBoolean(KEY_SUBTITLE_ON, true)
 }
