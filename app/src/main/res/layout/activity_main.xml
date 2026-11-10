@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_title"
+                android:textColor="@color/text"
+                android:textSize="42sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/home_subtitle"
+                android:textColor="@color/text_dim"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnSearch"
+            style="@style/BigButton.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="76dp"
+            android:layout_marginEnd="12dp"
+            android:minWidth="120dp"
+            android:text="@string/search" />
+
+        <TextView
+            android:id="@+id/btnSettings"
+            style="@style/BigButton.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="76dp"
+            android:minWidth="120dp"
+            android:text="@string/settings" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tileList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            android:scrollbars="none" />
+
+        <LinearLayout
+            android:id="@+id/stateBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/stateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/empty_title"
+                android:textColor="@color/text"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/stateHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:lineSpacingExtra="6dp"
+                android:text="@string/empty_hint"
+                android:textColor="@color/text_dim"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/stateButton"
+                style="@style/BigButton.Accent"
+                android:layout_width="wrap_content"
+                android:layout_height="88dp"
+                android:layout_marginTop="32dp"
+                android:minWidth="260dp"
+                android:text="@string/rescan" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/accent"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>

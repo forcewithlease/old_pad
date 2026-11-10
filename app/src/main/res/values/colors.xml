@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0E1116</color>
+    <color name="card">#1A2330</color>
+    <color name="card_pressed">#243040</color>
+    <color name="button">#263244</color>
+    <color name="button_ghost">#1C2532</color>
+    <color name="accent">#FFC53D</color>
+    <color name="accent_dark">#E0A800</color>
+    <color name="text">#FFFFFF</color>
+    <color name="text_dim">#C3CEDC</color>
+    <color name="danger">#FF7A7A</color>
+    <color name="cover_placeholder">#243040</color>
+    <color name="scrim">#B3000000</color>
+    <color name="scrim_light">#66000000</color>
+    <color name="progress_track">#33FFFFFF</color>
+    <color name="board_wood">#E8C48A</color>
+    <color name="board_line">#8A5A2B</color>
+</resources>

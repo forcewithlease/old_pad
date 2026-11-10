@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OldPad</string>
+
+    <string name="home_title">我的</string>
+    <string name="home_subtitle">点一下就能看</string>
+    <string name="search">搜索</string>
+    <string name="settings">设置</string>
+    <string name="back">返回</string>
+    <string name="rescan">重新扫描</string>
+    <string name="recent_badge">最近</string>
+    <string name="loading">正在查找…</string>
+
+    <string name="empty_title">还没有找到内容</string>
+    <string name="empty_hint">请让家人把视频放进平板的 Movies 文件夹，照片放进 Pictures 文件夹。\n一个文件夹就是一部电视剧或一组照片。</string>
+
+    <string name="permission_title">需要允许读取视频和照片</string>
+    <string name="permission_hint">点下面的按钮，然后在系统弹窗里选择“允许”。</string>
+    <string name="grant">允许读取</string>
+
+    <string name="series_count">共 %1$d 集</string>
+    <string name="video_count">共 %1$d 个视频</string>
+    <string name="episode_progress">已看 %1$d%%</string>
+    <string name="episode_watched">已看完</string>
+
+    <string name="all_photos">全部照片</string>
+    <string name="photo_count">%1$d 张</string>
+    <string name="album_empty_title">还没有照片</string>
+    <string name="album_empty_hint">请让家人把照片放进平板的 Pictures 文件夹。\n一个文件夹就是一组照片，例如“孙女”。</string>
+    <string name="photo_position">第 %1$d / %2$d 张</string>
+    <string name="prev_photo">上一张</string>
+    <string name="next_photo">下一张</string>
+    <string name="slideshow">自动播放</string>
+    <string name="slideshow_stop">停止播放</string>
+
+    <string name="search_hint">输入电视剧或比赛的名字</string>
+    <string name="voice_search">语音</string>
+    <string name="search_empty">没有找到，换个说法试试</string>
+    <string name="voice_unavailable">这台设备没有语音识别，请用键盘输入</string>
+    <string name="listening">请说出您想看的名字…</string>
+    <string name="need_mic">需要允许使用麦克风才能语音搜索</string>
+    <string name="search_result_from">来自《%1$s》</string>
+
+    <string name="speed">慢速</string>
+    <string name="speed_value">%1$s 倍</string>
+    <string name="rewind">⏪ 30秒</string>
+    <string name="forward">30秒 ⏩</string>
+    <string name="subtitles_on">字幕 开</string>
+    <string name="subtitles_off">字幕 关</string>
+    <string name="volume_down">音量 －</string>
+    <string name="volume_up">音量 ＋</string>
+    <string name="lock">锁定</string>
+    <string name="locked_hint">已锁定，长按屏幕 2 秒解锁</string>
+    <string name="unlocked">已解锁</string>
+
+    <string name="exit_title">要退出观看吗？</string>
+    <string name="exit_message">退出后可以随时再点开继续看。</string>
+    <string name="stay">继续看</string>
+    <string name="exit">退出</string>
+
+    <string name="game_restart">重开一局</string>
+    <string name="game_restart_title">要重新开始吗？</string>
+    <string name="game_exit_title">要退出游戏吗？</string>
+    <string name="game_exit_message">退出后可以随时再进来玩。</string>
+
+    <string name="next_episode">正在播放下一集</string>
+    <string name="finished">播放结束</string>
+    <string name="resume_hint">已从上次看到的地方继续</string>
+    <string name="player_tap_hint">轻点屏幕显示按钮</string>
+    <string name="video_error">这个视频打不开，请让家人检查文件</string>
+
+    <string name="settings_title">设置</string>
+    <string name="auto_start">开机自动打开</string>
+    <string name="auto_start_desc">开机后自动进入本应用。部分品牌还需要在系统设置里允许“自启动”。</string>
+    <string name="launcher_mode">设为桌面</string>
+    <string name="launcher_mode_desc">开机后直接进入本应用，代替系统桌面。适合专用平板。</string>
+    <string name="keep_awake">播放时屏幕常亮</string>
+    <string name="keep_awake_desc">看视频、看照片、玩游戏时都不自动黑屏。</string>
+    <string name="subtitle_size">字幕大小</string>
+    <string name="subtitle_size_desc">老人看不清字幕时，可以调大。</string>
+    <string name="size_big">大</string>
+    <string name="size_bigger">更大</string>
+    <string name="size_biggest">最大</string>
+    <string name="manage_home">管理首页格子</string>
+    <string name="manage_home_desc">决定首页显示哪些内容、按什么顺序排。</string>
+    <string name="video_folder_title">视频和照片放在哪里？</string>
+    <string name="video_folder_desc">视频放在 Movies 文件夹，照片放在 Pictures 文件夹。一个文件夹就是一部电视剧或一组照片，例如“西游记”“孙女”。</string>
+    <string name="rescan_videos">重新扫描视频和照片</string>
+    <string name="open_system_settings">打开系统设置</string>
+    <string name="ignore_battery">关闭电池优化</string>
+    <string name="all_files_access">允许读取字幕文件</string>
+    <string name="all_files_desc">Android 11 以上系统默认不允许读取视频旁边的 .srt/.ass 字幕。开启“所有文件访问”后字幕才能自动加载（可选）。</string>
+    <string name="all_files_granted">已允许读取字幕文件</string>
+    <string name="all_files_go">去开启</string>
+    <string name="about_title">关于</string>
+    <string name="about_desc">OldPad 是给家里老人用的离线视频、相册和棋牌小游戏。不联网、不上传，所有内容都在平板本地。</string>
+
+    <string name="manage_title">管理首页格子</string>
+    <string name="manage_hint">上箭头往前排，下箭头往后排；关掉开关就不在首页显示。首页最前面 3 格自动显示最近用过的内容。</string>
+    <string name="type_video">视频</string>
+    <string name="type_album">相册</string>
+    <string name="type_game">游戏</string>
+    <string name="move_up">上移</string>
+    <string name="move_down">下移</string>
+    <string name="reset_order">恢复自动排序</string>
+    <string name="order_reset">已恢复自动排序</string>
+    <string name="no_manage_items">还没有视频、照片或游戏。先往平板里放点内容吧。</string>
+    <string name="saved">已保存</string>
+
+    <string name="game_gomoku">五子棋</string>
+    <string name="game_gomoku_desc">你和电脑下，先连成五子就赢</string>
+
+    <string name="refresh_done">扫描完成</string>
+    <string name="refresh_count">找到 %1$d 个视频、%2$d 张照片</string>
+    <string name="all_files_need_api">当前系统不需要这个设置</string>
+    <string name="not_supported">当前设备不支持</string>
+</resources>
