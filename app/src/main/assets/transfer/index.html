@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OldPad 电脑快传</title>
+<style>
+  :root{
+    --bg:#0e1116; --card:#1a2330; --line:#2b3a4d; --accent:#ffc53d;
+    --text:#ffffff; --dim:#c3cedc; --danger:#ff7a7a; --ok:#7ee2a8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;}
+  body{min-height:100vh;padding:22px;}
+  header{max-width:1180px;margin:0 auto 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .brand{font-size:22px;font-weight:800;letter-spacing:.5px;color:var(--accent);}
+  h1{font-size:28px;margin:0;font-weight:800;}
+  .pill{margin-left:auto;font-size:14px;padding:8px 14px;border-radius:999px;
+    background:#2a1f14;color:var(--accent);border:1px solid #57431e;}
+  .pill.off{background:#331b1b;color:var(--danger);border-color:#5a2a2a;}
+  main{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
+  @media (max-width:900px){ main{grid-template-columns:1fr;} body{padding:14px;} }
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;}
+  h2{font-size:22px;margin:0 0 12px;}
+  h3{font-size:18px;margin:18px 0 10px;color:var(--dim);font-weight:600;}
+  .tabs{display:flex;gap:10px;margin-bottom:18px;}
+  .tab{flex:1;padding:14px 10px;border-radius:14px;border:1px solid var(--line);
+    background:#141c26;color:var(--dim);font-size:17px;font-weight:700;cursor:pointer;}
+  .tab.active{background:var(--accent);color:#12161c;border-color:var(--accent);}
+  .new-group{display:flex;gap:10px;flex-wrap:wrap;}
+  input[type=text]{flex:1;min-width:180px;padding:14px 16px;font-size:16px;color:var(--text);
+    background:#111923;border:1px solid var(--line);border-radius:12px;outline:none;}
+  input[type=text]:focus{border-color:var(--accent);}
+  button{cursor:pointer;font-family:inherit;}
+  .btn{padding:14px 18px;border-radius:12px;border:none;background:var(--accent);
+    color:#12161c;font-size:16px;font-weight:800;}
+  .btn.ghost{background:#223044;color:var(--text);border:1px solid var(--line);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+  .hint{color:var(--dim);font-size:14px;line-height:1.6;margin-top:10px;}
+  .groups{display:flex;flex-direction:column;gap:10px;margin-top:16px;max-height:52vh;overflow:auto;}
+  .group{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#141c26;
+    display:flex;align-items:center;gap:12px;cursor:pointer;}
+  .group.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,197,61,.18) inset;}
+  .group .name{font-size:17px;font-weight:700;}
+  .group .meta{font-size:13px;color:var(--dim);margin-top:3px;}
+  .group .del{margin-left:auto;background:transparent;border:none;color:var(--danger);font-size:14px;}
+  .empty{color:var(--dim);font-size:15px;padding:18px 0;text-align:center;}
+  .drop{border:2px dashed #3d4f66;border-radius:16px;padding:26px 18px;text-align:center;
+    color:var(--dim);font-size:16px;line-height:1.7;transition:.15s;}
+  .drop.hot{border-color:var(--accent);background:rgba(255,197,61,.07);color:var(--text);}
+  .drop label{color:var(--accent);text-decoration:underline;cursor:pointer;font-weight:700;}
+  .progress{margin-top:14px;display:none;}
+  .bar{height:10px;border-radius:999px;background:#253246;overflow:hidden;}
+  .bar > i{display:block;height:100%;width:0;background:var(--accent);transition:width .12s;}
+  .pname{font-size:14px;color:var(--dim);margin-bottom:7px;}
+  .files{display:flex;flex-direction:column;gap:8px;max-height:34vh;overflow:auto;}
+  .file{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#141c26;
+    border:1px solid var(--line);border-radius:10px;font-size:14px;}
+  .file .fname{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .file .fsize{color:var(--dim);font-size:13px;}
+  .file .del{background:transparent;border:none;color:var(--danger);}
+  .msg{margin-top:14px;font-size:14px;min-height:20px;color:var(--dim);}
+  .msg.err{color:var(--danger);}
+  .msg.ok{color:var(--ok);}
+  footer{max-width:1180px;margin:18px auto 0;color:var(--dim);font-size:13px;
+    display:flex;gap:16px;flex-wrap:wrap;}
+  a{color:var(--accent);}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">OldPad</div>
+  <h1>电脑快传</h1>
+  <div id="conn" class="pill">连接中…</div>
+</header>
+
+<main>
+  <section class="card">
+    <div class="tabs">
+      <button id="tabVideo" class="tab active">视频分组</button>
+      <button id="tabPhoto" class="tab">相册分组</button>
+    </div>
+
+    <div class="new-group">
+      <input id="groupName" type="text" maxlength="40" placeholder="新建分组，例如：西游记 / 孙女">
+      <button id="createBtn" class="btn">新建分组</button>
+    </div>
+    <div class="hint">一个分组就是平板首页上的一个格子。同名分组会提示已存在。</div>
+
+    <div id="groups" class="groups"></div>
+  </section>
+
+  <section class="card">
+    <h2 id="selTitle">先选一个分组</h2>
+    <div id="drop" class="drop">
+      把视频/照片拖到这里，或
+      <label for="fileInput">选择文件</label>
+      <input id="fileInput" type="file" multiple hidden>
+      <div class="hint">支持一次选多个文件；会上传到当前分组。</div>
+    </div>
+
+    <div id="progress" class="progress">
+      <div id="pname" class="pname"></div>
+      <div class="bar"><i id="pbar"></i></div>
+    </div>
+
+    <h3>分组里的文件</h3>
+    <div id="files" class="files"></div>
+    <div id="msg" class="msg"></div>
+  </section>
+</main>
+
+<footer>
+  <span>平板端请保持“电脑快传”页面亮着；离开后服务自动停止。</span>
+  <span id="free"></span>
+  <span>全部走局域网，不经过互联网。</span>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+  var params = new URLSearchParams(location.search);
+  var pin = params.get("pin") || sessionStorage.getItem("oldpad_pin") || "";
+  if (!pin) {
+    pin = window.prompt("请输入平板上的 4 位 PIN") || "";
+  }
+  if (pin) sessionStorage.setItem("oldpad_pin", pin);
+
+  var state = null;
+  var type = "video";
+  var selectedId = null;
+  var busy = false;
+
+  function withPin(url) {
+    return url + (url.indexOf("?") >= 0 ? "&" : "?") + "pin=" + encodeURIComponent(pin);
+  }
+
+  function setConn(ok) {
+    var el = $("conn");
+    el.className = "pill" + (ok ? "" : " off");
+    el.textContent = ok ? "已连接平板" : "连接失败";
+  }
+
+  function message(text, kind) {
+    var el = $("msg");
+    el.className = "msg" + (kind ? " " + kind : "");
+    el.textContent = text || "";
+  }
+
+  function fmtSize(bytes) {
+    if (!bytes && bytes !== 0) return "";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    if (bytes < 1024 * 1024 * 1024) return (bytes / 1024 / 1024).toFixed(1) + " MB";
+    return (bytes / 1024 / 1024 / 1024).toFixed(2) + " GB";
+  }
+
+  async function api(path, options) {
+    options = options || {};
+    var res = await fetch(withPin(path), options);
+    var data;
+    try { data = await res.json(); }
+    catch (e) { data = { ok: false, error: "服务器返回异常" }; }
+    if (!res.ok || !data.ok) {
+      throw new Error(data.error || ("请求失败 HTTP " + res.status));
+    }
+    return data;
+  }
+
+  async function refresh() {
+    try {
+      state = await api("/api/state");
+      setConn(true);
+      render();
+    } catch (e) {
+      setConn(false);
+      message(e.message, "err");
+    }
+  }
+
+  function currentGroups() {
+    if (!state) return [];
+    return (type === "video" ? state.videoGroups : state.photoGroups) || [];
+  }
+
+  function selectedGroup() {
+    if (!state) return null;
+    var list = currentGroups();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id === selectedId) return list[i];
+    }
+    return null;
+  }
+
+  function render() {
+    var groups = currentGroups();
+    var box = $("groups");
+    box.textContent = "";
+
+    if (!groups.length) {
+      var empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = type === "video"
+        ? "还没有视频分组，先在上面新建一个，例如“西游记”。"
+        : "还没有相册分组，先在上面新建一个，例如“孙女”。";
+      box.appendChild(empty);
+    }
+
+    for (var i = 0; i < groups.length; i++) {
+      (function (g) {
+        var row = document.createElement("div");
+        row.className = "group" + (g.id === selectedId ? " selected" : "");
+        var info = document.createElement("div");
+        var name = document.createElement("div");
+        name.className = "name";
+        name.textContent = g.name;
+        var meta = document.createElement("div");
+        meta.className = "meta";
+        var total = 0;
+        (g.files || []).forEach(function (f) { total += f.size || 0; });
+        meta.textContent = (g.files || []).length + " 个文件 · " + fmtSize(total);
+        info.appendChild(name);
+        info.appendChild(meta);
+
+        var del = document.createElement("button");
+        del.className = "del";
+        del.textContent = "删除";
+        del.onclick = function (ev) {
+          ev.stopPropagation();
+          removeGroup(g);
+        };
+
+        row.appendChild(info);
+        row.appendChild(del);
+        row.onclick = function () {
+          selectedId = g.id;
+          render();
+        };
+        box.appendChild(row);
+      })(groups[i]);
+    }
+
+    if (!selectedId && groups.length) selectedId = groups[0].id;
+    var selected = selectedGroup();
+    $("selTitle").textContent = selected
+      ? (type === "video" ? "上传到视频分组：" : "上传到相册分组：") + selected.name
+      : "先选一个分组";
+    $("fileInput").disabled = !selected;
+
+    var fileBox = $("files");
+    fileBox.textContent = "";
+    if (selected) {
+      var files = selected.files || [];
+      if (!files.length) {
+        var e = document.createElement("div");
+        e.className = "empty";
+        e.textContent = "这个分组里还没有文件，拖进来就行。";
+        fileBox.appendChild(e);
+      }
+      files.forEach(function (f) {
+        var row = document.createElement("div");
+        row.className = "file";
+        var n = document.createElement("div");
+        n.className = "fname";
+        n.textContent = f.name;
+        var s = document.createElement("div");
+        s.className = "fsize";
+        s.textContent = fmtSize(f.size);
+        var d = document.createElement("button");
+        d.className = "del";
+        d.textContent = "删除";
+        d.onclick = function () { removeFile(selected, f.name); };
+        row.appendChild(n);
+        row.appendChild(s);
+        row.appendChild(d);
+        fileBox.appendChild(row);
+      });
+    }
+
+    $("free").textContent = state && state.free
+      ? "平板剩余空间：" + fmtSize(state.free)
+      : "";
+  }
+
+  async function createGroup() {
+    var input = $("groupName");
+    var name = input.value.trim();
+    if (!name) { input.focus(); return; }
+    try {
+      await api("/api/group", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: type, name: name })
+      });
+      input.value = "";
+      message("分组已创建", "ok");
+      await refresh();
+    } catch (e) {
+      message(e.message, "err");
+    }
+  }
+
+  async function removeGroup(group) {
+    if (!window.confirm("删除分组“" + group.name + "”以及里面的所有文件？")) return;
+    try {
+      await api("/api/group?id=" + encodeURIComponent(group.id), { method: "DELETE" });
+      if (selectedId === group.id) selectedId = null;
+      message("分组已删除", "ok");
+      await refresh();
+    } catch (e) {
+      message(e.message, "err");
+    }
+  }
+
+  async function removeFile(group, name) {
+    if (!window.confirm("删除文件“" + name + "”？")) return;
+    try {
+      await api(
+        "/api/file?group=" + encodeURIComponent(group.id) +
+        "&name=" + encodeURIComponent(name),
+        { method: "DELETE" }
+      );
+      message("文件已删除", "ok");
+      await refresh();
+    } catch (e) {
+      message(e.message, "err");
+    }
+  }
+
+  function uploadOne(file) {
+    return new Promise(function (resolve, reject) {
+      var group = selectedGroup();
+      if (!group) { reject(new Error("请先选择分组")); return; }
+
+      var xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        withPin(
+          "/api/upload?group=" + encodeURIComponent(group.id) +
+          "&name=" + encodeURIComponent(file.name)
+        )
+      );
+      xhr.upload.onprogress = function (ev) {
+        if (ev.lengthComputable) {
+          var pct = Math.round(ev.loaded * 100 / ev.total);
+          $("pbar").style.width = pct + "%";
+          $("pname").textContent = file.name + " · " + pct + "% · " +
+            fmtSize(ev.loaded) + " / " + fmtSize(ev.total);
+        }
+      };
+      xhr.onload = function () {
+        try {
+          var data = JSON.parse(xhr.responseText || "{}");
+          if (xhr.status === 200 && data.ok) resolve(data);
+          else reject(new Error(data.error || "上传失败"));
+        } catch (e) {
+          reject(new Error("上传响应异常"));
+        }
+      };
+      xhr.onerror = function () { reject(new Error("网络错误")); };
+      var fd = new FormData();
+      fd.append("file", file, file.name);
+      xhr.send(fd);
+    });
+  }
+
+  async function uploadFiles(fileList) {
+    if (busy) return;
+    var files = Array.prototype.slice.call(fileList || []);
+    if (!files.length) return;
+    if (!selectedGroup()) { message("请先选择分组", "err"); return; }
+
+    busy = true;
+    $("progress").style.display = "block";
+    $("pbar").style.width = "0%";
+    var done = 0;
+
+    for (var i = 0; i < files.length; i++) {
+      $("pname").textContent = files[i].name;
+      try {
+        await uploadOne(files[i]);
+        done++;
+      } catch (e) {
+        message("上传失败：" + files[i].name + "（" + e.message + "）", "err");
+        break;
+      }
+    }
+
+    $("pbar").style.width = "100%";
+    if (done > 0) {
+      message("已上传 " + done + " 个文件。回到平板首页即可看到。", "ok");
+    }
+    busy = false;
+    $("fileInput").value = "";
+    await refresh();
+    setTimeout(function () {
+      $("progress").style.display = "none";
+      $("pbar").style.width = "0%";
+    }, 1200);
+  }
+
+  $("tabVideo").onclick = function () {
+    type = "video"; selectedId = null;
+    $("tabVideo").classList.add("active");
+    $("tabPhoto").classList.remove("active");
+    render();
+  };
+  $("tabPhoto").onclick = function () {
+    type = "photo"; selectedId = null;
+    $("tabPhoto").classList.add("active");
+    $("tabVideo").classList.remove("active");
+    render();
+  };
+  $("createBtn").onclick = createGroup;
+  $("groupName").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") createGroup();
+  });
+  $("fileInput").onchange = function () { uploadFiles(this.files); };
+
+  var drop = $("drop");
+  drop.addEventListener("dragover", function (e) {
+    e.preventDefault(); drop.classList.add("hot");
+  });
+  drop.addEventListener("dragleave", function () { drop.classList.remove("hot"); });
+  drop.addEventListener("drop", function (e) {
+    e.preventDefault();
+    drop.classList.remove("hot");
+    uploadFiles(e.dataTransfer.files);
+  });
+
+  if (!pin) {
+    message("没有 PIN，无法连接平板。请重新扫描平板上的二维码。", "err");
+  } else {
+    refresh();
+    setInterval(function () { if (!busy) refresh(); }, 5000);
+  }
+})();
+</script>
+</body>
+</html>

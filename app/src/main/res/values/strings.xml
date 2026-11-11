@@ -76,6 +76,19 @@
     <string name="video_error">这个视频打不开，请让家人检查文件</string>
 
     <string name="settings_title">设置</string>
+    <string name="transfer_title">电脑快传</string>
+    <string name="transfer_entry">电脑快传</string>
+    <string name="transfer_entry_desc">电脑浏览器打开，上传视频/照片，新建分组，不用数据线。</string>
+    <string name="transfer_open_on_pc">在电脑浏览器打开</string>
+    <string name="transfer_pin">PIN</string>
+    <string name="transfer_copy">复制地址</string>
+    <string name="transfer_copied">地址已复制</string>
+    <string name="transfer_scan">也可以扫码打开</string>
+    <string name="transfer_waiting">正在等待电脑连接…</string>
+    <string name="transfer_keep_open">请保持此页面亮着。离开本页后快传会自动停止。</string>
+    <string name="transfer_no_wifi">请先把平板连到和电脑同一个 WiFi</string>
+    <string name="transfer_port_busy">端口被占用，请退出本页后重试</string>
+    <string name="transfer_desc">电脑和电脑/手机连接同一个 WiFi，在浏览器里新建分组，然后把视频或照片拖进去。传完回到首页，会自动出现新的剧集或相册。</string>
     <string name="auto_start">开机自动打开</string>
     <string name="auto_start_desc">开机后自动进入本应用。部分品牌还需要在系统设置里允许“自启动”。</string>
     <string name="launcher_mode">设为桌面</string>

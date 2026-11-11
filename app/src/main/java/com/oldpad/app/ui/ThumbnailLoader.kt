@@ -55,12 +55,17 @@ object ThumbnailLoader {
 
     private fun decode(context: Context, uri: Uri, widthPx: Int): Bitmap? {
         if (Build.VERSION.SDK_INT >= 29) {
-            return context.contentResolver.loadThumbnail(
-                uri,
-                Size(widthPx, widthPx * 9 / 16),
-                null
-            )
+            try {
+                return context.contentResolver.loadThumbnail(
+                    uri,
+                    Size(widthPx, widthPx * 9 / 16),
+                    null
+                )
+            } catch (ignored: Exception) {
+                // file:// 或不受支持的 URI，继续用下面两种方式
+            }
         }
+
         val retriever = MediaMetadataRetriever()
         val fromVideo = try {
             retriever.setDataSource(context, uri)
@@ -75,7 +80,7 @@ object ThumbnailLoader {
         }
         if (fromVideo != null) return fromVideo
 
-        // 照片（API 29 以下没有 loadThumbnail）
+        // 照片（API 29 以下没有 loadThumbnail，或 file:// 缩略图）
         return try {
             val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             context.contentResolver.openInputStream(uri)?.use {

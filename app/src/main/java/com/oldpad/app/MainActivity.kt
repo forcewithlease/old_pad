@@ -148,6 +148,11 @@ class MainActivity : BaseActivity() {
 
             "albums" -> startActivity(Intent(this, AlbumPickerActivity::class.java))
 
+            "transfer" -> startActivity(
+                Intent(this, TransferActivity::class.java)
+                    .putExtra(TransferActivity.EXTRA_DEBUG_PIN, intent.getStringExtra("pin"))
+            )
+
             "settings" -> startActivity(Intent(this, SettingsActivity::class.java))
             "manage" -> startActivity(Intent(this, ManageHomeActivity::class.java))
             "search" -> startActivity(Intent(this, SearchActivity::class.java))

@@ -74,6 +74,9 @@ class SettingsActivity : BaseActivity() {
         binding.btnSizeBiggest.setOnClickListener { setSubtitleScale(0.17f) }
         updateSizeButtons()
 
+        binding.btnTransfer.setOnClickListener {
+            startActivity(Intent(this, TransferActivity::class.java))
+        }
         binding.btnManageHome.setOnClickListener {
             startActivity(Intent(this, ManageHomeActivity::class.java))
         }

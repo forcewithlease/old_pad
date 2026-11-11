@@ -47,23 +47,27 @@ object PhotoRepository {
     }
 
     fun albums(context: Context, force: Boolean = false): List<Album> {
-        val all = allAlbums(context, force)
-        if (all.isEmpty()) return emptyList()
-
-        val enabled = AlbumConfig.enabledFolders(context)
-        val selected = all.filter { it.key in enabled }
-        if (selected.isEmpty()) return emptyList()
-
         val result = ArrayList<Album>()
-        // “全部照片”只汇总已勾选的相册，绝不把截图/相机混进来
-        if (AlbumConfig.allPhotosEnabled(context) && selected.size > 1) {
-            result += Album(
-                ALL_KEY,
-                "全部照片",
-                selected.flatMap { it.photos }.sortedBy { it.dateAdded }
-            )
+        val all = allAlbums(context, force)
+
+        if (all.isNotEmpty()) {
+            val enabled = AlbumConfig.enabledFolders(context)
+            val selected = all.filter { it.key in enabled }
+            // “全部照片”只汇总已勾选的相册，绝不把截图/相机混进来
+            if (selected.isNotEmpty() &&
+                AlbumConfig.allPhotosEnabled(context) && selected.size > 1
+            ) {
+                result += Album(
+                    ALL_KEY,
+                    "全部照片",
+                    selected.flatMap { it.photos }.sortedBy { it.dateAdded }
+                )
+            }
+            result += selected
         }
-        result += selected
+
+        // 通过“电脑快传”明确上传的分组，默认直接显示
+        result += InternalLibrary.photoAlbums(context)
         return result
     }
 
@@ -82,6 +86,12 @@ object PhotoRepository {
     }
 
     fun albumFor(context: Context, key: String): Album? {
+        if (key.startsWith("internal:")) {
+            val group = InternalLibrary.findGroupByFolderKey(context, key) ?: return null
+            val photos = InternalLibrary.photoItems(context, group)
+            if (photos.isEmpty()) return null
+            return Album(key, group.name, photos)
+        }
         if (key == ALL_KEY) {
             val selected = albums(context).filter { it.key != ALL_KEY }
             if (selected.isEmpty()) return null

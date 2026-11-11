@@ -257,6 +257,23 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- 电脑快传 -->
+        <LinearLayout
+            android:id="@+id/btnTransfer"
+            style="@style/SettingRow"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/SettingTitle"
+                android:text="@string/transfer_entry" />
+
+            <TextView
+                style="@style/SettingDesc"
+                android:layout_marginTop="6dp"
+                android:text="@string/transfer_entry_desc" />
+        </LinearLayout>
+
         <!-- 管理首页 -->
         <LinearLayout
             android:id="@+id/btnManageHome"

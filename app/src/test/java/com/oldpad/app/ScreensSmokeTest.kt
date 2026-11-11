@@ -50,6 +50,14 @@ class ScreensSmokeTest {
     }
 
     @Test
+    fun transferScreenInflates() {
+        val controller = Robolectric.buildActivity(TransferActivity::class.java).setup()
+        assertNotNull(controller.get().findViewById(R.id.url))
+        assertNotNull(controller.get().findViewById(R.id.qr))
+        controller.pause().stop().destroy()
+    }
+
+    @Test
     fun gomokuGameStarts() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val intent = Intent(context, GameActivity::class.java)

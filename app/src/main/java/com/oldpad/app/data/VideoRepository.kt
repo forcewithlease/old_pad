@@ -79,19 +79,32 @@ object VideoRepository {
 
     fun isSingleKey(key: String): Boolean = key.startsWith("__single__")
 
-    fun groups(context: Context, force: Boolean = false): List<VideoGroup> =
-        buildGroups(videos(context, force))
+    fun groups(context: Context, force: Boolean = false): List<VideoGroup> {
+        val base = buildGroups(videos(context, force))
+        val internal = InternalLibrary.videoGroups(context)
+        return (base + internal).sortedWith { a, b -> naturalCompare(a.name, b.name) }
+    }
+
+    fun allVideos(context: Context): List<VideoItem> =
+        videos(context) + InternalLibrary.allVideos(context)
 
     fun groupFor(context: Context, key: String): VideoGroup? =
         groups(context).firstOrNull { it.key == key }
 
     fun videoById(context: Context, id: Long): VideoItem? =
         videos(context).firstOrNull { it.id == id }
+            ?: InternalLibrary.findVideo(context, id)
 
-    fun playlist(context: Context, folderKey: String): List<VideoItem> =
-        videos(context)
+    fun playlist(context: Context, folderKey: String): List<VideoItem> {
+        if (folderKey.startsWith("internal:")) {
+            val group = InternalLibrary.findGroupByFolderKey(context, folderKey)
+                ?: return emptyList()
+            return InternalLibrary.videoItems(context, group)
+        }
+        return videos(context)
             .filter { it.folderKey == folderKey }
             .sortedWith(compareBy(episodeComparator()) { it.title })
+    }
 
     fun next(context: Context, current: VideoItem): VideoItem? {
         val list = playlist(context, current.folderKey)

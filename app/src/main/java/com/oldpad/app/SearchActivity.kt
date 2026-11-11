@@ -65,7 +65,7 @@ class SearchActivity : BaseActivity() {
 
         lifecycleScope.launch {
             allVideos = withContext(Dispatchers.IO) {
-                VideoRepository.videos(this@SearchActivity)
+                VideoRepository.allVideos(this@SearchActivity)
             }
             scheduleSearch(binding.searchInput.text?.toString().orEmpty(), 0)
         }
