@@ -46,6 +46,7 @@ class SearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemInsets()
 
         adapter = SearchAdapter { video -> play(video) }
         binding.results.layoutManager = LinearLayoutManager(this)

@@ -29,6 +29,7 @@ class SettingsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemInsets()
 
         binding.btnBack.setOnClickListener { finish() }
 
@@ -50,14 +51,34 @@ class SettingsActivity : BaseActivity() {
             AppSettings.prefs(this).edit().putBoolean(AppSettings.KEY_KEEP_AWAKE, checked).apply()
         }
 
+        // 自动横屏
+        binding.switchAutoLandscape.isChecked = AppSettings.autoLandscape(this)
+        binding.switchAutoLandscape.setOnCheckedChangeListener { _, checked ->
+            AppSettings.prefs(this).edit()
+                .putBoolean(AppSettings.KEY_AUTO_LANDSCAPE, checked)
+                .apply()
+        }
+
+        // 视频文件夹范围
+        binding.switchVideoAll.isChecked = AppSettings.videoAllFolders(this)
+        binding.switchVideoAll.setOnCheckedChangeListener { _, checked ->
+            AppSettings.prefs(this).edit()
+                .putBoolean(AppSettings.KEY_VIDEO_ALL_FOLDERS, checked)
+                .apply()
+            VideoRepository.invalidate()
+        }
+
         // 字幕大小
-        binding.btnSizeBig.setOnClickListener { setSubtitleScale(0.08f) }
-        binding.btnSizeBigger.setOnClickListener { setSubtitleScale(0.11f) }
-        binding.btnSizeBiggest.setOnClickListener { setSubtitleScale(0.14f) }
+        binding.btnSizeBig.setOnClickListener { setSubtitleScale(0.11f) }
+        binding.btnSizeBigger.setOnClickListener { setSubtitleScale(0.14f) }
+        binding.btnSizeBiggest.setOnClickListener { setSubtitleScale(0.17f) }
         updateSizeButtons()
 
         binding.btnManageHome.setOnClickListener {
             startActivity(Intent(this, ManageHomeActivity::class.java))
+        }
+        binding.btnManageAlbums.setOnClickListener {
+            startActivity(Intent(this, AlbumPickerActivity::class.java))
         }
 
         binding.btnRescan.setOnClickListener { rescan() }
@@ -82,9 +103,9 @@ class SettingsActivity : BaseActivity() {
     private fun updateSizeButtons() {
         val current = AppSettings.subtitleScale(this)
         val options = listOf(
-            binding.btnSizeBig to 0.08f,
-            binding.btnSizeBigger to 0.11f,
-            binding.btnSizeBiggest to 0.14f
+            binding.btnSizeBig to 0.11f,
+            binding.btnSizeBigger to 0.14f,
+            binding.btnSizeBiggest to 0.17f
         )
         for ((button, value) in options) {
             val selected = abs(current - value) < 0.001f

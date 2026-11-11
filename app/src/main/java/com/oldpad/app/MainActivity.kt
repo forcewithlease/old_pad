@@ -59,6 +59,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemInsets()
 
         adapter = TileAdapter { tile -> openTile(tile) }
         binding.tileList.layoutManager = GridLayoutManager(this, spanCount())
@@ -84,6 +85,73 @@ class MainActivity : BaseActivity() {
             permissionLauncher.launch(MediaPermissions.required())
         }
         applyKeepAwake(com.oldpad.app.data.AppSettings.keepAwake(this))
+        handleDebugIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleDebugIntent(intent)
+    }
+
+    /** 仅 Debug 包可用：adb 直接打开某个页面，方便真机测试。 */
+    private fun handleDebugIntent(intent: Intent?) {
+        if (!BuildConfig.DEBUG) return
+        when (intent?.getStringExtra("debug_open")) {
+            "series" -> {
+                val key = intent.getStringExtra("folder_key") ?: return
+                startActivity(
+                    Intent(this, SeriesActivity::class.java)
+                        .putExtra(SeriesActivity.EXTRA_KEY, key)
+                        .putExtra(SeriesActivity.EXTRA_NAME, intent.getStringExtra("name"))
+                )
+            }
+
+            "player" -> {
+                val id = intent.getLongExtra("video_id", -1L)
+                if (id <= 0) return
+                startActivity(
+                    Intent(this, PlayerActivity::class.java)
+                        .putExtra(PlayerActivity.EXTRA_VIDEO_ID, id)
+                        .putExtra(
+                            PlayerActivity.EXTRA_FOLDER_KEY,
+                            intent.getStringExtra("folder_key")
+                        )
+                )
+            }
+
+            "album" -> {
+                val key = intent.getStringExtra("album_key") ?: return
+                startActivity(
+                    Intent(this, AlbumActivity::class.java)
+                        .putExtra(AlbumActivity.EXTRA_KEY, key)
+                        .putExtra(AlbumActivity.EXTRA_NAME, intent.getStringExtra("name"))
+                )
+            }
+
+            "game" -> {
+                val id = intent.getStringExtra("game_id") ?: return
+                startActivity(
+                    Intent(this, GameActivity::class.java)
+                        .putExtra(GameActivity.EXTRA_GAME_ID, id)
+                )
+            }
+
+            "photo" -> {
+                val key = intent.getStringExtra("album_key") ?: return
+                startActivity(
+                    Intent(this, PhotoActivity::class.java)
+                        .putExtra(PhotoActivity.EXTRA_KEY, key)
+                        .putExtra(PhotoActivity.EXTRA_INDEX, intent.getIntExtra("photo_index", 0))
+                )
+            }
+
+            "albums" -> startActivity(Intent(this, AlbumPickerActivity::class.java))
+
+            "settings" -> startActivity(Intent(this, SettingsActivity::class.java))
+            "manage" -> startActivity(Intent(this, ManageHomeActivity::class.java))
+            "search" -> startActivity(Intent(this, SearchActivity::class.java))
+        }
     }
 
     override fun onStart() {

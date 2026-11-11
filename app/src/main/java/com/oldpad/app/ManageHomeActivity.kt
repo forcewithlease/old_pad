@@ -27,6 +27,7 @@ class ManageHomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityManageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemInsets()
 
         binding.btnBack.setOnClickListener { finish() }
 

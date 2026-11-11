@@ -35,7 +35,10 @@
             android:layout_width="0dp"
             android:layout_height="96dp"
             android:layout_weight="1"
-            android:text="@string/stay" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/stay"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/btnConfirm"
@@ -44,6 +47,9 @@
             android:layout_height="96dp"
             android:layout_marginStart="14dp"
             android:layout_weight="1"
-            android:text="@string/exit" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/exit"
+            android:textSize="24sp" />
     </LinearLayout>
 </LinearLayout>

@@ -59,6 +59,15 @@ object VideoRepository {
         return groups.sortedWith { a, b -> naturalCompare(a.name, b.name) }
     }
 
+    private fun isInMovies(path: String?): Boolean {
+        if (path.isNullOrBlank()) return false
+        val normalized = path.replace('\\', '/')
+        val moviesRoot = android.os.Environment
+            .getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_MOVIES)
+            .absolutePath
+        return normalized.startsWith("$moviesRoot/") || normalized.contains("/Movies/")
+    }
+
     private fun isRootMediaFolder(video: VideoItem): Boolean {
         if (video.folder.trim().lowercase() in rootFolderNames) return true
         val parent = video.path?.let { File(it).parentFile } ?: return false
@@ -97,7 +106,9 @@ object VideoRepository {
             MediaStore.Video.Media._ID,
             MediaStore.Video.Media.DISPLAY_NAME,
             MediaStore.Video.Media.DURATION,
-            MediaStore.Video.Media.DATE_ADDED
+            MediaStore.Video.Media.DATE_ADDED,
+            MediaStore.Video.Media.WIDTH,
+            MediaStore.Video.Media.HEIGHT
         )
 
         var cursor = try {
@@ -130,6 +141,8 @@ object VideoRepository {
             val dateIdx = c.getColumnIndex(MediaStore.Video.Media.DATE_ADDED)
             val dataIdx = c.getColumnIndex(MediaStore.Video.Media.DATA)
             val bucketIdx = c.getColumnIndex("bucket_display_name")
+            val widthIdx = c.getColumnIndex(MediaStore.Video.Media.WIDTH)
+            val heightIdx = c.getColumnIndex(MediaStore.Video.Media.HEIGHT)
             if (idIdx < 0 || nameIdx < 0) return result
 
             while (c.moveToNext()) {
@@ -139,6 +152,7 @@ object VideoRepository {
 
                 val path = if (dataIdx >= 0) c.getString(dataIdx) else null
                 if (path != null && path.contains("/.thumbnails/")) continue
+                if (!AppSettings.videoAllFolders(context) && !isInMovies(path)) continue
 
                 val fromPath = path?.let { File(it).parentFile?.name }?.takeIf { it.isNotBlank() }
                 val fromBucket = if (bucketIdx >= 0) c.getString(bucketIdx) else null
@@ -159,7 +173,9 @@ object VideoRepository {
                     folderKey = folderKey,
                     durationMs = if (durIdx >= 0) c.getLong(durIdx) else 0L,
                     dateAdded = if (dateIdx >= 0) c.getLong(dateIdx) else 0L,
-                    path = path
+                    path = path,
+                    width = if (widthIdx >= 0) c.getInt(widthIdx) else 0,
+                    height = if (heightIdx >= 0) c.getInt(heightIdx) else 0
                 )
             }
         }

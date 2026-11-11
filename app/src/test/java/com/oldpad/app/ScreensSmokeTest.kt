@@ -70,6 +70,14 @@ class ScreensSmokeTest {
     }
 
     @Test
+    fun albumPickerInflates() {
+        val controller = Robolectric.buildActivity(AlbumPickerActivity::class.java).setup()
+        assertNotNull(controller.get().findViewById(R.id.albumList))
+        assertNotNull(controller.get().findViewById(R.id.switchAllPhotos))
+        controller.pause().stop().destroy()
+    }
+
+    @Test
     fun albumScreenInflates() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val intent = Intent(context, AlbumActivity::class.java)

@@ -28,6 +28,7 @@ class SeriesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySeriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemInsets()
 
         folderKey = intent.getStringExtra(EXTRA_KEY) ?: run {
             finish()

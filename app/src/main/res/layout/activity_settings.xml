@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    android:fitsSystemWindows="true"
     android:scrollbars="none">
 
     <LinearLayout
@@ -145,6 +144,76 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- 自动横屏 -->
+        <LinearLayout style="@style/SettingRow">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingTitle"
+                        android:text="@string/auto_landscape" />
+
+                    <TextView
+                        style="@style/SettingDesc"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/auto_landscape_desc" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchAutoLandscape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:scaleX="1.35"
+                    android:scaleY="1.35" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 视频文件夹 -->
+        <LinearLayout style="@style/SettingRow">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/SettingTitle"
+                        android:text="@string/video_all_folders" />
+
+                    <TextView
+                        style="@style/SettingDesc"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/video_all_folders_desc" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchVideoAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:scaleX="1.35"
+                    android:scaleY="1.35" />
+            </LinearLayout>
+        </LinearLayout>
+
         <!-- 字幕大小 -->
         <LinearLayout style="@style/SettingRow">
 
@@ -203,6 +272,23 @@
                 style="@style/SettingDesc"
                 android:layout_marginTop="6dp"
                 android:text="@string/manage_home_desc" />
+        </LinearLayout>
+
+        <!-- 管理相册 -->
+        <LinearLayout
+            android:id="@+id/btnManageAlbums"
+            style="@style/SettingRow"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                style="@style/SettingTitle"
+                android:text="@string/manage_albums" />
+
+            <TextView
+                style="@style/SettingDesc"
+                android:layout_marginTop="6dp"
+                android:text="@string/manage_albums_desc" />
         </LinearLayout>
 
         <!-- 视频目录说明 -->

@@ -30,6 +30,7 @@ class AlbumActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAlbumBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemInsets()
 
         albumKey = intent.getStringExtra(EXTRA_KEY) ?: run {
             finish()

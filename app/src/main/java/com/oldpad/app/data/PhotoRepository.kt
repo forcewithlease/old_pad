@@ -47,6 +47,28 @@ object PhotoRepository {
     }
 
     fun albums(context: Context, force: Boolean = false): List<Album> {
+        val all = allAlbums(context, force)
+        if (all.isEmpty()) return emptyList()
+
+        val enabled = AlbumConfig.enabledFolders(context)
+        val selected = all.filter { it.key in enabled }
+        if (selected.isEmpty()) return emptyList()
+
+        val result = ArrayList<Album>()
+        // “全部照片”只汇总已勾选的相册，绝不把截图/相机混进来
+        if (AlbumConfig.allPhotosEnabled(context) && selected.size > 1) {
+            result += Album(
+                ALL_KEY,
+                "全部照片",
+                selected.flatMap { it.photos }.sortedBy { it.dateAdded }
+            )
+        }
+        result += selected
+        return result
+    }
+
+    /** 所有检测到的照片文件夹，仅供“管理相册”选择，不直接显示。 */
+    fun allAlbums(context: Context, force: Boolean = false): List<Album> {
         val photos = photos(context, force)
         if (photos.isEmpty()) return emptyList()
 
@@ -54,16 +76,23 @@ object PhotoRepository {
         for (p in photos) {
             map.getOrPut(p.folderKey) { mutableListOf() }.add(p)
         }
-        val folders = map.map { (key, list) ->
+        return map.map { (key, list) ->
             Album(key, list.first().folder, list.sortedBy { it.dateAdded })
         }.sortedWith { a, b -> naturalCompare(a.name, b.name) }
-
-        val all = Album(ALL_KEY, "全部照片", photos.sortedBy { it.dateAdded })
-        return listOf(all) + folders
     }
 
-    fun albumFor(context: Context, key: String): Album? =
-        albums(context).firstOrNull { it.key == key }
+    fun albumFor(context: Context, key: String): Album? {
+        if (key == ALL_KEY) {
+            val selected = albums(context).filter { it.key != ALL_KEY }
+            if (selected.isEmpty()) return null
+            return Album(
+                ALL_KEY,
+                "全部照片",
+                selected.flatMap { it.photos }.sortedBy { it.dateAdded }
+            )
+        }
+        return allAlbums(context).firstOrNull { it.key == key }
+    }
 
     private fun query(context: Context): List<PhotoItem> {
         val result = ArrayList<PhotoItem>()

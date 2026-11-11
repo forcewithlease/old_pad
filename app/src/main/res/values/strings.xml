@@ -12,7 +12,7 @@
     <string name="loading">正在查找…</string>
 
     <string name="empty_title">还没有找到内容</string>
-    <string name="empty_hint">请让家人把视频放进平板的 Movies 文件夹，照片放进 Pictures 文件夹。\n一个文件夹就是一部电视剧或一组照片。</string>
+    <string name="empty_hint">请让家人把视频放进平板的 Movies 文件夹，照片放进 Pictures 文件夹。\n照片还需要到“设置 → 管理相册”里打开才会显示。</string>
 
     <string name="permission_title">需要允许读取视频和照片</string>
     <string name="permission_hint">点下面的按钮，然后在系统弹窗里选择“允许”。</string>
@@ -35,7 +35,7 @@
     <string name="slideshow">自动播放</string>
     <string name="slideshow_stop">停止播放</string>
 
-    <string name="search_hint">输入电视剧或比赛的名字</string>
+    <string name="search_hint">输入名字</string>
     <string name="voice_search">语音</string>
     <string name="search_empty">没有找到，换个说法试试</string>
     <string name="voice_unavailable">这台设备没有语音识别，请用键盘输入</string>
@@ -46,8 +46,8 @@
     <string name="speed">慢速</string>
     <string name="speed_value">%1$s 倍</string>
     <string name="time_zero">00:00</string>
-    <string name="rewind">⏪30</string>
-    <string name="forward">30⏩</string>
+    <string name="rewind">后退</string>
+    <string name="forward">前进</string>
     <string name="subtitles_on">字幕开</string>
     <string name="subtitles_off">字幕关</string>
     <string name="volume_down">音量-</string>
@@ -62,6 +62,9 @@
     <string name="exit">退出</string>
 
     <string name="game_restart">重开一局</string>
+    <string name="game_restart_short">重开</string>
+    <string name="game_restart_message">当前这局会清空，重新开始。</string>
+    <string name="keep_playing">继续玩</string>
     <string name="game_restart_title">要重新开始吗？</string>
     <string name="game_exit_title">要退出游戏吗？</string>
     <string name="game_exit_message">退出后可以随时再进来玩。</string>
@@ -79,11 +82,21 @@
     <string name="launcher_mode_desc">开机后直接进入本应用，代替系统桌面。适合专用平板。</string>
     <string name="keep_awake">播放时屏幕常亮</string>
     <string name="keep_awake_desc">看视频、看照片、玩游戏时都不自动黑屏。</string>
+    <string name="auto_landscape">播放时自动横屏</string>
+    <string name="auto_landscape_desc">横屏视频自动转到横屏全屏播放，不用老人自己找全屏键。</string>
+    <string name="video_all_folders">显示其他文件夹的视频</string>
+    <string name="video_all_folders_desc">关闭时只显示 Movies 文件夹里的视频；相机、录屏、下载里的私人视频不会出现在首页。</string>
     <string name="subtitle_size">字幕大小</string>
     <string name="subtitle_size_desc">老人看不清字幕时，可以调大。</string>
     <string name="size_big">大</string>
     <string name="size_bigger">更大</string>
     <string name="size_biggest">最大</string>
+    <string name="manage_albums">管理相册</string>
+    <string name="manage_albums_desc">默认不显示任何相册。勾选后才出现在首页，避免把截图、相机照片展示出来。</string>
+    <string name="album_picker_hint">只打开想让老人看的相册，例如“孙女”“旅游”。关闭的相册不会出现在首页，也不会进入“全部照片”。</string>
+    <string name="all_photos_summary">全部照片</string>
+    <string name="all_photos_summary_desc">只汇总上面已打开的相册（至少选两个才有意义）</string>
+    <string name="album_picker_empty">还没有检测到照片。请确认已允许读取照片，并把照片放进 Pictures 文件夹。</string>
     <string name="manage_home">管理首页格子</string>
     <string name="manage_home_desc">决定首页显示哪些内容、按什么顺序排。</string>
     <string name="video_folder_title">视频和照片放在哪里？</string>

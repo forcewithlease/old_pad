@@ -69,7 +69,7 @@
 
         <activity
             android:name=".PlayerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:configChanges="keyboardHidden"
             android:exported="false"
             android:theme="@style/Theme.OldPad.Player" />
 
@@ -97,6 +97,11 @@
 
         <activity
             android:name=".ManageHomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:exported="false" />
+
+        <activity
+            android:name=".AlbumPickerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:exported="false" />
 

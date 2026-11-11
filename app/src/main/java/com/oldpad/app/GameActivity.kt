@@ -24,6 +24,7 @@ class GameActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applySystemInsets()
 
         val id = intent.getStringExtra(EXTRA_GAME_ID) ?: run {
             finish()
@@ -50,9 +51,9 @@ class GameActivity : BaseActivity() {
             Dialogs.confirm(
                 this,
                 getString(R.string.game_restart_title),
-                getString(R.string.game_restart),
-                getString(R.string.game_restart),
-                getString(R.string.stay)
+                getString(R.string.game_restart_message),
+                getString(R.string.game_restart_short),
+                getString(R.string.keep_playing)
             ) {
                 module?.restart()
             }
@@ -71,7 +72,7 @@ class GameActivity : BaseActivity() {
             getString(R.string.game_exit_title),
             getString(R.string.game_exit_message),
             getString(R.string.exit),
-            getString(R.string.stay)
+            getString(R.string.keep_playing)
         ) {
             finish()
         }

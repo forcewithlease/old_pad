@@ -8,8 +8,8 @@ import com.oldpad.app.game.GameProvider
 object GomokuProvider : GameProvider {
     override val id = "gomoku"
     override val title = "五子棋"
-    override val subtitle = "你和电脑下，先连成五子就赢"
-    override val emoji = "⚫"
+    override val subtitle = "连成五子就赢"
+    override val emoji = "⚪"
     override fun createModule(): GameModule = GomokuModule()
 }
 

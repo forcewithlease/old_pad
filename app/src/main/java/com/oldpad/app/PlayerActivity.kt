@@ -1,13 +1,17 @@
 package com.oldpad.app
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.media.AudioManager
+import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.WindowManager
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -76,6 +80,12 @@ class PlayerActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= 28) {
+            window.attributes = window.attributes.apply {
+                layoutInDisplayCutoutMode =
+                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
+        }
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -87,6 +97,7 @@ class PlayerActivity : BaseActivity() {
             return
         }
         video = found
+        applyVideoOrientation(video)
 
         val folderKey = intent.getStringExtra(EXTRA_FOLDER_KEY)
             ?: "__single__${video.id}"
@@ -135,6 +146,43 @@ class PlayerActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    /** 老人不用自己找“全屏/旋转”：横屏视频直接转到横屏铺满。 */
+    private fun applyVideoOrientation(item: VideoItem) {
+        if (!AppSettings.autoLandscape(this)) return
+
+        var width = item.width
+        var height = item.height
+        if (width > 0 && height > 0) {
+            var rotation = 0
+            val retriever = MediaMetadataRetriever()
+            try {
+                retriever.setDataSource(this, item.uri)
+                rotation = retriever
+                    .extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)
+                    ?.toIntOrNull() ?: 0
+            } catch (e: Exception) {
+                rotation = 0
+            } finally {
+                try {
+                    retriever.release()
+                } catch (ignored: Exception) {
+                }
+            }
+            if (rotation == 90 || rotation == 270) {
+                val tmp = width
+                width = height
+                height = tmp
+            }
+        }
+
+        val landscape = width <= 0 || height <= 0 || width >= height
+        requestedOrientation = if (landscape) {
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+        }
     }
 
     private fun setupButtons() {
@@ -327,8 +375,10 @@ class PlayerActivity : BaseActivity() {
 
     private fun applySubtitleState() {
         val p = player ?: return
+        val preferred = subtitles.firstOrNull()?.language
         p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
             .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, !subtitleOn || subtitles.isEmpty())
+            .setPreferredTextLanguage(preferred)
             .setSelectUndeterminedTextLanguage(true)
             .build()
     }
@@ -355,7 +405,8 @@ class PlayerActivity : BaseActivity() {
     }
 
     private fun onEnded() {
-        PlaybackStore.savePosition(this, video.id, 0)
+        val finishedDuration = player?.duration?.takeIf { it > 0 } ?: video.durationMs
+        PlaybackStore.savePosition(this, video.id, finishedDuration.coerceAtLeast(0))
         val next = playlist.getOrNull(currentIndex + 1)
         if (next != null) {
             showHud(getString(R.string.next_episode))
@@ -447,7 +498,7 @@ class PlayerActivity : BaseActivity() {
         val duration = p.duration
         val position = p.currentPosition
         if (duration > 0 && position > duration - 10_000) {
-            PlaybackStore.savePosition(this, video.id, 0)
+            PlaybackStore.savePosition(this, video.id, duration)
         } else if (position > 0) {
             PlaybackStore.savePosition(this, video.id, position)
         }

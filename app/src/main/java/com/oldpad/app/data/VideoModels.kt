@@ -10,7 +10,9 @@ data class VideoItem(
     val folderKey: String,
     val durationMs: Long,
     val dateAdded: Long,
-    val path: String?
+    val path: String?,
+    val width: Int = 0,
+    val height: Int = 0
 )
 
 data class VideoGroup(

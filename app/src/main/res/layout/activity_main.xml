@@ -3,56 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
                 android:text="@string/home_title"
                 android:textColor="@color/text"
-                android:textSize="42sp"
-                android:textStyle="bold"
-                android:includeFontPadding="false" />
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/btnSearch"
+                style="@style/BigButton.Small"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="@string/home_subtitle"
-                android:textColor="@color/text_dim"
+                android:layout_height="72dp"
+                android:layout_marginEnd="12dp"
+                android:minWidth="100dp"
+                android:text="@string/search"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/btnSettings"
+                style="@style/BigButton.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:minWidth="100dp"
+                android:text="@string/settings"
                 android:textSize="24sp" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/btnSearch"
-            style="@style/BigButton.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="76dp"
-            android:layout_marginEnd="12dp"
-            android:minWidth="120dp"
-            android:text="@string/search" />
-
-        <TextView
-            android:id="@+id/btnSettings"
-            style="@style/BigButton.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="76dp"
-            android:minWidth="120dp"
-            android:text="@string/settings" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:includeFontPadding="false"
+            android:text="@string/home_subtitle"
+            android:textColor="@color/text_dim"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
