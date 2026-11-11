@@ -49,6 +49,14 @@
 
 ### 方式一：直接安装构建好的 APK
 
+仓库里的现成安装包：
+
+```
+dist/OldPad-1.0-debug.apk
+```
+
+也可以自己编译后取：
+
 ```
 app/build/outputs/apk/debug/app-debug.apk
 ```
