@@ -76,6 +76,24 @@ class InternalLibraryTest {
     }
 
     @Test
+    fun renameGroupUpdatesNameAndRejectsDuplicate() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val first = InternalLibrary.createGroup(context, InternalLibrary.TYPE_VIDEO, "旧分组名")
+        val second = InternalLibrary.createGroup(context, InternalLibrary.TYPE_VIDEO, "已有分组")
+        try {
+            assertTrue(first != null)
+            assertTrue(second != null)
+            assertTrue(InternalLibrary.renameGroup(context, first!!.id, "新分组名"))
+            assertEquals("新分组名", InternalLibrary.group(context, first.id)?.name)
+            assertFalse(InternalLibrary.renameGroup(context, first.id, "已有分组"))
+            assertEquals("新分组名", InternalLibrary.group(context, first.id)?.name)
+        } finally {
+            first?.let { InternalLibrary.deleteGroup(context, it.id) }
+            second?.let { InternalLibrary.deleteGroup(context, it.id) }
+        }
+    }
+
+    @Test
     fun unsafeFileNameIsSanitized() {
         val name = InternalLibrary.safeFileName("../../evil/第01集.mp4")
         assertFalse(name.contains(".."))

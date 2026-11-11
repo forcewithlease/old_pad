@@ -31,6 +31,7 @@ class TransferServer(
                 uri.startsWith("/api/") && !authorized(session) -> unauthorized()
                 session.method == Method.GET && uri == "/api/state" -> state()
                 session.method == Method.POST && uri == "/api/group" -> createGroup(session)
+                session.method == Method.POST && uri == "/api/group/rename" -> renameGroup(session)
                 session.method == Method.DELETE && uri == "/api/group" -> deleteGroup(session)
                 session.method == Method.POST && uri == "/api/upload" -> upload(session)
                 session.method == Method.DELETE && uri == "/api/file" -> deleteFile(session)
@@ -113,6 +114,20 @@ class TransferServer(
                 .put("name", group.name)
                 .put("type", group.type)
         )
+    }
+
+    private fun renameGroup(session: IHTTPSession): Response {
+        val body = readBody(session)
+        if (body.isBlank()) return json(Response.Status.BAD_REQUEST, error("内容为空"))
+        val obj = JSONObject(body)
+        val id = obj.optString("id")
+        val name = obj.optString("name")
+        val renamed = InternalLibrary.renameGroup(appContext, id, name)
+        return if (renamed) {
+            json(Response.Status.OK, JSONObject().put("ok", true))
+        } else {
+            json(Response.Status.CONFLICT, error("分组名重复或无效"))
+        }
     }
 
     private fun deleteGroup(session: IHTTPSession): Response {

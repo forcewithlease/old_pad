@@ -80,6 +80,25 @@ object InternalLibrary {
     }
 
     @Synchronized
+    fun renameGroup(context: Context, id: String, rawName: String): Boolean {
+        val name = rawName.trim().take(40)
+        if (name.isBlank()) return false
+        val all = loadGroups(context)
+        val index = all.indexOfFirst { it.id == id }
+        if (index < 0) return false
+        val group = all[index]
+        if (all.any {
+                it.type == group.type && it.id != id && it.name.equals(name, ignoreCase = true)
+            }
+        ) {
+            return false
+        }
+        all[index] = group.copy(name = name)
+        saveGroups(context, all)
+        return true
+    }
+
+    @Synchronized
     fun deleteGroup(context: Context, id: String): Boolean {
         val all = loadGroups(context)
         val group = all.firstOrNull { it.id == id } ?: return false

@@ -44,7 +44,8 @@
   .group.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,197,61,.18) inset;}
   .group .name{font-size:17px;font-weight:700;}
   .group .meta{font-size:13px;color:var(--dim);margin-top:3px;}
-  .group .del{margin-left:auto;background:transparent;border:none;color:var(--danger);font-size:14px;}
+  .group .edit{margin-left:auto;background:transparent;border:none;color:var(--accent);font-size:14px;}
+  .group .del{background:transparent;border:none;color:var(--danger);font-size:14px;margin-left:10px;}
   .empty{color:var(--dim);font-size:15px;padding:18px 0;text-align:center;}
   .drop{border:2px dashed #3d4f66;border-radius:16px;padding:26px 18px;text-align:center;
     color:var(--dim);font-size:16px;line-height:1.7;transition:.15s;}
@@ -225,6 +226,14 @@
         info.appendChild(name);
         info.appendChild(meta);
 
+        var edit = document.createElement("button");
+        edit.className = "edit";
+        edit.textContent = "改名";
+        edit.onclick = function (ev) {
+          ev.stopPropagation();
+          renameGroup(g);
+        };
+
         var del = document.createElement("button");
         del.className = "del";
         del.textContent = "删除";
@@ -234,6 +243,7 @@
         };
 
         row.appendChild(info);
+        row.appendChild(edit);
         row.appendChild(del);
         row.onclick = function () {
           selectedId = g.id;
@@ -297,6 +307,24 @@
       });
       input.value = "";
       message("分组已创建", "ok");
+      await refresh();
+    } catch (e) {
+      message(e.message, "err");
+    }
+  }
+
+  async function renameGroup(group) {
+    var name = window.prompt("输入新的分组名", group.name);
+    if (name === null) return;
+    name = name.trim();
+    if (!name) return;
+    try {
+      await api("/api/group/rename", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: group.id, name: name })
+      });
+      message("分组已改名", "ok");
       await refresh();
     } catch (e) {
       message(e.message, "err");

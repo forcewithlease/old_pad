@@ -237,6 +237,7 @@ Movies/西游记/第01集.zh-CN.vtt
 | --- | --- | --- |
 | GET | `/api/state?pin=` | 分组、文件、剩余空间 |
 | POST | `/api/group?pin=` | 新建分组，JSON `{type:"video"/"photo", name}` |
+| POST | `/api/group/rename?pin=` | 分组改名，JSON `{id, name}` |
 | POST | `/api/upload?pin=&group=&name=` | multipart 字段 `file` |
 | DELETE | `/api/group?pin=&id=` | 删除分组 |
 | DELETE | `/api/file?pin=&group=&name=` | 删除文件 |
