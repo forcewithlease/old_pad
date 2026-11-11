@@ -192,6 +192,7 @@ class PlayerActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
+        if (!this::video.isInitialized) return
         createPlayer()
         startPlayback(video, resume = true)
         progressHandler.post(progressRunnable)

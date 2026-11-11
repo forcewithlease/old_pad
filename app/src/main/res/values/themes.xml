@@ -89,12 +89,16 @@
     </style>
 
     <style name="SettingTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="SettingDesc">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_dim</item>
         <item name="android:textSize">21sp</item>
         <item name="android:lineSpacingExtra">4dp</item>
