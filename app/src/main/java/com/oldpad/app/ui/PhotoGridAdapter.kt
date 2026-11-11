@@ -30,6 +30,7 @@ class PhotoGridAdapter(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.binding.photo.clipToOutline = true
         PhotoLoader.load(holder.binding.photo, items[position], 420)
         holder.binding.photo.setOnClickListener { onClick(position) }
     }

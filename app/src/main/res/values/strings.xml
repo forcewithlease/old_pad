@@ -45,6 +45,7 @@
 
     <string name="speed">慢速</string>
     <string name="speed_value">%1$s 倍</string>
+    <string name="time_zero">00:00</string>
     <string name="rewind">⏪30</string>
     <string name="forward">30⏩</string>
     <string name="subtitles_on">字幕开</string>
@@ -116,4 +117,7 @@
     <string name="refresh_count">找到 %1$d 个视频、%2$d 张照片</string>
     <string name="all_files_need_api">当前系统不需要这个设置</string>
     <string name="not_supported">当前设备不支持</string>
+    <string name="version_label">v1.0</string>
+    <string name="arrow_up">↑</string>
+    <string name="arrow_down">↓</string>
 </resources>

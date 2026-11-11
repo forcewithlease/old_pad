@@ -7,6 +7,7 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
@@ -39,8 +40,7 @@
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="sensor">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -65,53 +65,45 @@
         <activity
             android:name=".SeriesActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:exported="false"
-            android:screenOrientation="sensor" />
+            android:exported="false" />
 
         <activity
             android:name=".PlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:exported="false"
-            android:screenOrientation="sensor"
             android:theme="@style/Theme.OldPad.Player" />
 
         <activity
             android:name=".AlbumActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:exported="false"
-            android:screenOrientation="sensor" />
+            android:exported="false" />
 
         <activity
             android:name=".PhotoActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:exported="false"
-            android:screenOrientation="sensor"
             android:theme="@style/Theme.OldPad.Player" />
 
         <activity
             android:name=".SearchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:exported="false"
-            android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".SettingsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:exported="false"
-            android:screenOrientation="sensor" />
+            android:exported="false" />
 
         <activity
             android:name=".ManageHomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:exported="false"
-            android:screenOrientation="sensor" />
+            android:exported="false" />
 
         <activity
             android:name=".GameActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:exported="false"
-            android:screenOrientation="sensor" />
+            android:exported="false" />
 
         <receiver
             android:name=".BootReceiver"

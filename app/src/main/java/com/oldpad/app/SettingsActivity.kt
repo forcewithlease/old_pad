@@ -67,6 +67,11 @@ class SettingsActivity : BaseActivity() {
         setupAllFilesButton()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupAllFilesButton()
+    }
+
     private fun setSubtitleScale(scale: Float) {
         AppSettings.prefs(this).edit()
             .putFloat(AppSettings.KEY_SUBTITLE_SCALE, scale)
@@ -189,7 +194,6 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun requestIgnoreBattery() {
-        if (Build.VERSION.SDK_INT < 23) return
         val power = getSystemService(PowerManager::class.java)
         if (power != null && power.isIgnoringBatteryOptimizations(packageName)) {
             toast("已经关闭电池优化")

@@ -9,6 +9,13 @@ import androidx.core.content.ContextCompat
 object MediaPermissions {
 
     fun required(): Array<String> {
+        if (Build.VERSION.SDK_INT >= 34) {
+            return arrayOf(
+                Manifest.permission.READ_MEDIA_VIDEO,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+            )
+        }
         return if (Build.VERSION.SDK_INT >= 33) {
             arrayOf(
                 Manifest.permission.READ_MEDIA_VIDEO,

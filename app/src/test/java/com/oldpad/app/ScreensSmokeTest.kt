@@ -21,6 +21,16 @@ class ScreensSmokeTest {
     fun mainScreenInflates() {
         val controller = Robolectric.buildActivity(MainActivity::class.java).setup()
         assertNotNull(controller.get().findViewById(R.id.tileList))
+        val list = controller.get().findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.tileList)
+        val deadline = System.currentTimeMillis() + 5_000
+        while ((list.adapter?.itemCount ?: 0) == 0 && System.currentTimeMillis() < deadline) {
+            org.robolectric.Shadows.shadowOf(android.os.Looper.getMainLooper()).idle()
+            Thread.sleep(30)
+        }
+        org.junit.Assert.assertTrue(
+            "首页至少应该有五子棋格子",
+            (list.adapter?.itemCount ?: 0) > 0
+        )
         controller.pause().stop().destroy()
     }
 

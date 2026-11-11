@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.OptIn
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -19,6 +20,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.ui.CaptionStyleCompat
+import androidx.media3.common.util.UnstableApi
 import com.oldpad.app.data.AppSettings
 import com.oldpad.app.data.PlaybackStore
 import com.oldpad.app.data.SubtitleFile
@@ -30,6 +32,7 @@ import com.oldpad.app.ui.Dialogs
 import com.oldpad.app.util.formatClock
 import java.util.Locale
 
+@OptIn(UnstableApi::class)
 class PlayerActivity : BaseActivity() {
 
     companion object {
@@ -150,6 +153,15 @@ class PlayerActivity : BaseActivity() {
         binding.playerView.setOnClickListener(toggle)
 
         binding.playerRoot.setOnLongClickListener {
+            if (locked) {
+                unlock()
+                true
+            } else {
+                false
+            }
+        }
+        // PlayerView 会消费触摸事件，长按解锁必须也挂在这里
+        binding.playerView.setOnLongClickListener {
             if (locked) {
                 unlock()
                 true
@@ -300,7 +312,9 @@ class PlayerActivity : BaseActivity() {
         if (subs.isNotEmpty()) {
             builder.setSubtitleConfigurations(
                 subs.map { subtitle ->
-                    MediaItem.SubtitleConfiguration.Builder(Uri.fromFile(subtitle.file))
+                    MediaItem.SubtitleConfiguration.Builder(
+                        Uri.fromFile(SubtitleFinder.prepareUtf8(this, subtitle))
+                    )
                         .setMimeType(subtitle.mimeType)
                         .setLanguage(subtitle.language)
                         .setLabel(subtitle.label)

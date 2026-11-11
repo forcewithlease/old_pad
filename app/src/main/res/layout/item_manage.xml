@@ -44,7 +44,7 @@
         android:background="@drawable/bg_button"
         android:contentDescription="@string/move_up"
         android:gravity="center"
-        android:text="↑"
+        android:text="@string/arrow_up"
         android:textColor="@color/text"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -57,7 +57,7 @@
         android:background="@drawable/bg_button"
         android:contentDescription="@string/move_down"
         android:gravity="center"
-        android:text="↓"
+        android:text="@string/arrow_down"
         android:textColor="@color/text"
         android:textSize="30sp"
         android:textStyle="bold" />

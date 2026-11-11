@@ -183,6 +183,7 @@ Movies/西游记/第01集.zh-CN.vtt
 - 支持 `.srt`、`.ass`、`.ssa`、`.vtt`。
 - 文件名必须和视频同名，可以加 `.chs`、`.cht`、`.zh`、`.en` 等语言后缀。
 - 默认优先简体中文，然后其他中文字幕，再到英文字幕。
+- 自动识别 UTF-8 / GBK / UTF-16 编码并转成 UTF-8，老字幕不会乱码。
 - 字幕大小：**设置 → 字幕大小 → 大 / 更大 / 最大**。
 
 ### Android 11+ 需要额外授权
@@ -307,6 +308,9 @@ echo "sdk.dir=$HOME/Android/Sdk" > local.properties
 
 # 2. 编译 Debug APK
 ./gradlew assembleDebug
+
+# 3. 跑冒烟测试（首页/设置/相册/播放器/游戏/搜索 + 数据逻辑）
+./gradlew testDebugUnitTest
 
 # 产物
 # app/build/outputs/apk/debug/app-debug.apk

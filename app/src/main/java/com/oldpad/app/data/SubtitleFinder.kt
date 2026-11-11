@@ -1,8 +1,13 @@
 package com.oldpad.app.data
 
+import android.content.Context
 import android.media.MediaMetadataRetriever
 import androidx.media3.common.MimeTypes
 import java.io.File
+import java.nio.ByteBuffer
+import java.nio.charset.CharacterCodingException
+import java.nio.charset.Charset
+import java.nio.charset.CodingErrorAction
 
 data class SubtitleFile(
     val file: File,
@@ -80,6 +85,73 @@ object SubtitleFinder {
         null -> 1
         "en" -> 2
         else -> 3
+    }
+
+    /**
+     * 中文字幕经常是 GBK/Big5/UTF-16 编码，ExoPlayer 只按 UTF-8 解析。
+     * 这里检测并用 UTF-8 缓存一份，避免字幕乱码。
+     */
+    fun prepareUtf8(context: Context, subtitle: SubtitleFile): File {
+        val source = subtitle.file
+        val bytes = try {
+            source.readBytes()
+        } catch (e: Exception) {
+            return source
+        }
+        if (bytes.isEmpty()) return source
+
+        // UTF-8 BOM：去掉 BOM
+        if (bytes.size >= 3 && bytes[0] == 0xEF.toByte() &&
+            bytes[1] == 0xBB.toByte() && bytes[2] == 0xBF.toByte()
+        ) {
+            return writeUtf8(context, subtitle, bytes.copyOfRange(3, bytes.size))
+        }
+
+        // UTF-16 BOM
+        if (bytes.size >= 2 && bytes[0] == 0xFF.toByte() && bytes[1] == 0xFE.toByte()) {
+            return writeUtf8(context, subtitle, String(bytes, Charset.forName("UTF-16LE")).toByteArray())
+        }
+        if (bytes.size >= 2 && bytes[0] == 0xFE.toByte() && bytes[1] == 0xFF.toByte()) {
+            return writeUtf8(context, subtitle, String(bytes, Charset.forName("UTF-16BE")).toByteArray())
+        }
+
+        if (isValidUtf8(bytes)) return source
+
+        val text = try {
+            String(bytes, Charset.forName("GBK"))
+        } catch (e: Exception) {
+            return source
+        }
+        return writeUtf8(context, subtitle, text.toByteArray(Charsets.UTF_8))
+    }
+
+    private fun isValidUtf8(bytes: ByteArray): Boolean {
+        val decoder = Charsets.UTF_8.newDecoder()
+            .onMalformedInput(CodingErrorAction.REPORT)
+            .onUnmappableCharacter(CodingErrorAction.REPORT)
+        return try {
+            decoder.decode(ByteBuffer.wrap(bytes))
+            true
+        } catch (e: CharacterCodingException) {
+            false
+        }
+    }
+
+    private fun writeUtf8(context: Context, subtitle: SubtitleFile, bytes: ByteArray): File {
+        return try {
+            val dir = File(context.cacheDir, "subtitles")
+            if (!dir.exists()) dir.mkdirs()
+            val out = File(
+                dir,
+                "${subtitle.file.nameWithoutExtension}-" +
+                    "${subtitle.file.absolutePath.hashCode()}-" +
+                    "${subtitle.file.length()}.utf8.${subtitle.file.extension}"
+            )
+            out.writeBytes(bytes)
+            out
+        } catch (e: Exception) {
+            subtitle.file
+        }
     }
 
     /** 兼容部分老设备：从视频里读时长（MediaStore 有时给 0）。 */

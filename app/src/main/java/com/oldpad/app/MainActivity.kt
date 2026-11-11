@@ -83,7 +83,7 @@ class MainActivity : BaseActivity() {
             permissionRequested = true
             permissionLauncher.launch(MediaPermissions.required())
         }
-        applyKeepAwake(true)
+        applyKeepAwake(com.oldpad.app.data.AppSettings.keepAwake(this))
     }
 
     override fun onStart() {

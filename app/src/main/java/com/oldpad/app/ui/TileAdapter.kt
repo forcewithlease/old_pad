@@ -37,6 +37,7 @@ class TileAdapter(
         binding.title.text = tile.title
         binding.subtitle.text = tile.subtitle
         binding.badge.visibility = if (tile.isRecent) View.VISIBLE else View.GONE
+        binding.cover.clipToOutline = true
 
         if (tile.cover != null) {
             ThumbnailLoader.load(binding.cover, tile.cover, 720)

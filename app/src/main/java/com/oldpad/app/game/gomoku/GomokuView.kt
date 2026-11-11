@@ -25,6 +25,7 @@ class GomokuView(context: Context) : View(context) {
         private const val EMPTY = 0
         private const val PLAYER = 1
         private const val AI = 2
+        private val STAR_POINTS = intArrayOf(3, 3, 11, 3, 3, 11, 11, 11, 7, 7)
     }
 
     private val board = IntArray(SIZE * SIZE) { EMPTY }
@@ -58,6 +59,7 @@ class GomokuView(context: Context) : View(context) {
     private var cell = 0f
     private var originX = 0f
     private var originY = 0f
+    private val boardRect = RectF()
 
     private var gameOver = false
     private var aiThinking = false
@@ -99,7 +101,7 @@ class GomokuView(context: Context) : View(context) {
 
         // 棋盘底色
         val pad = cell * 0.55f
-        val boardRect = RectF(
+        boardRect.set(
             originX - pad,
             originY - pad,
             originX + cell * (SIZE - 1) + pad,
@@ -119,11 +121,10 @@ class GomokuView(context: Context) : View(context) {
         }
 
         // 星位
-        val stars = intArrayOf(3, 3, 11, 3, 3, 11, 11, 11, 7, 7)
         var s = 0
-        while (s < stars.size) {
-            val cx = originX + stars[s] * cell
-            val cy = originY + stars[s + 1] * cell
+        while (s < STAR_POINTS.size) {
+            val cx = originX + STAR_POINTS[s] * cell
+            val cy = originY + STAR_POINTS[s + 1] * cell
             canvas.drawCircle(cx, cy, cell * 0.08f, linePaint)
             s += 2
         }

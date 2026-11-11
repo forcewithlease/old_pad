@@ -261,7 +261,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="v1.0"
+                android:text="@string/version_label"
                 android:textColor="@color/text_dim"
                 android:textSize="20sp" />
         </LinearLayout>
