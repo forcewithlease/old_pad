@@ -1,1 +1,1 @@
-a800fd5c196acf3645daab90952d28cf10fe5947aeb096b93b9e6bef85cb1eb5  OldPad-1.0-debug.apk
+de760b8bad460d1facecaad888d37b51e4b4c95aa9c34d782a409c843e1d5e21  OldPad-1.0-debug.apk

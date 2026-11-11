@@ -1,5 +1,6 @@
 package com.oldpad.app
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import com.oldpad.app.data.AppSettings
@@ -33,6 +34,13 @@ class GameActivity : BaseActivity() {
         val provider = GameRegistry.find(this, id) ?: run {
             finish()
             return
+        }
+
+        when (provider.orientation) {
+            "landscape" -> requestedOrientation =
+                ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            "portrait" -> requestedOrientation =
+                ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
         }
 
         gameTitle = provider.title

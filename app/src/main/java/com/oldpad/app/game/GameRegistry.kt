@@ -11,7 +11,8 @@ import org.json.JSONObject
 object GameRegistry {
 
     private val nativeProviders: List<GameProvider> = listOf(
-        com.oldpad.app.game.gomoku.GomokuProvider
+        com.oldpad.app.game.gomoku.GomokuProvider,
+        com.oldpad.app.game.junqi.JunqiProvider
         // 在这里加新的原生游戏，一行一个
     )
 
@@ -50,7 +51,8 @@ object GameRegistry {
                 title = title,
                 subtitle = subtitle,
                 emoji = emoji,
-                assetsDir = dir
+                assetsDir = dir,
+                orientation = json.optString("orientation").takeIf { it.isNotBlank() }
             )
         }
         return result
@@ -63,7 +65,8 @@ class WebGameProvider(
     override val title: String,
     override val subtitle: String,
     override val emoji: String,
-    private val assetsDir: String
+    private val assetsDir: String,
+    override val orientation: String?
 ) : GameProvider {
     override fun createModule(): GameModule = WebGameModule(assetsDir)
 }

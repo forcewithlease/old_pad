@@ -28,5 +28,9 @@ interface GameProvider {
     val title: String
     val subtitle: String
     val emoji: String
+
+    /** null = 跟随设备；landscape / portrait = 进入游戏时自动转屏 */
+    val orientation: String? get() = null
+
     fun createModule(): GameModule
 }
